@@ -1,24 +1,30 @@
+========================================================================
+===16/03/2025===========================================================
+========================================================================
 Database:
-	data will be store in .txt files
+	data will be store in province_list.txt, district_list.txt, ward_list.txt
 	Insert into Trie
 	Suitable Trie architecture: Methods and Attribute
 
 Data preprocessing:
 	Handle prefix: "X.", "H.", "Xm",... -> Handle many variant of prefix
-	Seperator: Different variant of seperator: [",", ";", " - ", " " ] 
+	Seperator: Different variant of seperator: [",", ";", " - ", " ", ... ] 
 	Possible approach: Regex, Prefix mapping,...
 
 Address classification:
-	Data correction:	
+	Data correction: Not to correct the data, but classify data with the error: Error -> Right location	
 		Case sensitive!
 		Correct data for typo error
 			Edit distance (need DP to optimize)
 	Need tokenize???
+
+	Maybe we dont need correct data -> Find Word in Trie with minimum edit distance?
+
 	Ambiguity handling: Address may not contain prefix -> Dont know if it is province, district or ward yet -> need to handle it
 	Prefix-trie approach?
-
 
 Optimization:
 	Maximum time for each request <= 0.2s
 	Average time for 1 request <= 0.04s
 	=> the program should finish within *(0.04 * number_of_requests)s
+	

@@ -1,5 +1,9 @@
 import re
 import json
+from collections import deque
+
+import time
+import os
 
 class TrieNode:
     def __init__(self):
@@ -9,9 +13,9 @@ class TrieNode:
 class Trie:
     def __init__(self, data = None):
         self.root = TrieNode()
-
         for d in data:
             self.insert(d)
+       
 
     ## INSERT WORD INTO TRIE
     def insert(self, word):
@@ -53,8 +57,46 @@ class Trie:
         self._dfs(node, prefix, result)
         return result
     
-    def auto_correct(self, word):
-        result = self.search_with_prefix()
+    def find_closest(self, target, max_distance=4):
+        """Find the closest word in the Trie based on minimum edit distance using BFS."""
+        queue = deque([(self.root, "", 0)])  # (node, current_word, edit_distance)
+        closest_match = None
+        min_distance = float("inf")
+
+        while queue:
+            node, current_word, _ = queue.popleft()
+
+            if node.is_end:
+                distance = self._edit_distance(target, current_word)
+                if distance < min_distance:
+                    min_distance = distance
+                    closest_match = current_word
+
+            if min_distance == 0:  # Exact match found, exit early
+                return closest_match
+
+            for char, next_node in node.children.items():
+                queue.append((next_node, current_word + char, 0))
+
+        return closest_match if min_distance <= max_distance else None
+
+    def _edit_distance(self, s1, s2):
+        """Compute the edit distance between two words using DP (iterative)."""
+        len1, len2 = len(s1), len(s2)
+        dp = [[0] * (len2 + 1) for _ in range(len1 + 1)]
+
+        for i in range(len1 + 1):
+            for j in range(len2 + 1):
+                if i == 0:
+                    dp[i][j] = j
+                elif j == 0:
+                    dp[i][j] = i
+                elif s1[i - 1] == s2[j - 1]:
+                    dp[i][j] = dp[i - 1][j - 1]
+                else:
+                    dp[i][j] = 1 + min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1])
+
+        return dp[len1][len2]
         
 ## Edit distance
 
@@ -75,4 +117,10 @@ with open("list_ward.txt", "r", encoding="utf-8") as f:
 
 trie = Trie(list_district)
 
-print(input)
+# Measure Search Time for Test Cases
+test_queries = ["Tân", "Hanoi", "Can Tho", "Sai Gon"]
+for q in test_queries:
+    start_time = os.times()
+    print(trie.find_closest(q))
+    end_time = os.times()
+    print({(end_time[0] - start_time[0])})
