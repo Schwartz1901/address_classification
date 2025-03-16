@@ -1,0 +1,23 @@
+[
+    {
+        "ground_truth" : "",
+        "pred_no_correct": "Address",
+        "pred_and_correct": "",
+        "address_info" : {
+            "province" : "Pro",
+            "district": "",
+            "ward": ""
+        }
+    },
+    
+    {
+        "ground_truth" : "",
+        "pred_no_correct": "",
+        "pred_and_correct": "",
+        "address_info" : {
+            "province" : "",
+            "district": "",
+            "ward": ""
+        }
+    }
+]

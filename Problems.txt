@@ -1,0 +1,24 @@
+Database:
+	data will be store in .txt files
+	Insert into Trie
+	Suitable Trie architecture: Methods and Attribute
+
+Data preprocessing:
+	Handle prefix: "X.", "H.", "Xm",... -> Handle many variant of prefix
+	Seperator: Different variant of seperator: [",", ";", " - ", " " ] 
+	Possible approach: Regex, Prefix mapping,...
+
+Address classification:
+	Data correction:	
+		Case sensitive!
+		Correct data for typo error
+			Edit distance (need DP to optimize)
+	Need tokenize???
+	Ambiguity handling: Address may not contain prefix -> Dont know if it is province, district or ward yet -> need to handle it
+	Prefix-trie approach?
+
+
+Optimization:
+	Maximum time for each request <= 0.2s
+	Average time for 1 request <= 0.04s
+	=> the program should finish within *(0.04 * number_of_requests)s
